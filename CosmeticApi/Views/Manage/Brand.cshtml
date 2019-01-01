@@ -1,0 +1,33 @@
+﻿@using CosmeticApi.Models.Context
+@model IEnumerable<Brand>
+
+<div class="container block">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Бренды</h2>
+            <table class="table">
+                <tbody>
+                    @foreach (Brand b in Model)
+                    {
+                        <tr>
+                            <td>@b.Name</td>
+                            <td>@b.Country</td>
+                            <td>@b.Desctiption</td>
+                            <td><button class="btn btn-primary" id="deleteBrand" data-id=@b.Id>Удалить</button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <div class="form">
+                <h3>Добавить бренд</h3>
+                <div class="form-group">
+                    <input class="form-control" id="brand" placeholder="Введите Бренд" />
+                </div>
+                <button class="btn btn-primary" id="addBrand">Добавить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
