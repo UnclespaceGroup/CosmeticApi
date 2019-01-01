@@ -35,9 +35,16 @@ namespace CosmeticApi.Controllers
             db.SaveChanges();
         }
 
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody]Review value)
         {
-
+            var review = db.Reviews.Find(id);
+            if (review != null)
+            {
+                review.Active = review.Active ? false : true;
+                if (value.Title != null) review.Title = value.Title;
+                if (value.Text != null) review.Text = value.Text;
+                db.SaveChanges();
+            }
         }
 
         public void Delete(int id)

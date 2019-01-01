@@ -5,18 +5,22 @@
 }
 
 
-<div class="container">
+<div class="container block">
     <table class="table">
         <tbody>
             @foreach (Review r in Model)
             {
-                <tr>
+                string className = !r.Active ? "table__disactive" : "";
+                string active_id = "active_" + r.Id;
+                <tr class=@className>
                     <td>@r.Title</td>
                     <td>@r.Text</td>
-                    <td>@r.Active</td>
-                    <td>@r.Brand</td>
+                    <td id=@active_id>@r.Active</td>
+                    <td>@r.Brand.Name</td>
                     <td>@r.Data</td>
                     <td>@r.User</td>
+                    <td><button class="btn btn-primary setActive" data-id=@r.Id>Утвердить</button></td>
+                    <td><button class="btn btn-primary modifide" data-id=@r.Id data-toggle="modal" data-target="#myModal">Изменить</button></td>
                 </tr>
             }
         </tbody>
@@ -28,8 +32,119 @@
     @Html.Action("Brand")
 </div>
 
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Изменить отзыв</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input class="form-control" id="current-title" placeholder="Заголовок" />
+                </div>
+                <div class="form-group">
+                    <input class="form-control" id="current-text" placeholder="Текст" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+                <button type="button" class="btn btn-primary modifide_send">Опубликовать</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section scripts{
     <script type="text/javascript">
+        $(document).ready(() => {
+            let changeId
+            $('.modifide').click(function () {
+                changeId = $(this).data('id');
+            })
+            $('.modifide_send').click(function () {
+                const url = '/api/reviews/' + changeId
+                $.ajax({
+                    type: 'PUT',
+                    url: url,
+                    data: {
+                        title: $('#current-title').val(),
+                        text: $('current-text').val()
+                    },
+                    dataType: 'json',
+                    success: (data) => {
+                        alert('Изменено')
+                        location.reload();
+                    },
+                    error: (e) => {
+                        console.log(e)
+                        alert('Не удалось')
+                    }
+                })
+            })
+
+            $('.setActive').click(function () {
+                const id = $(this).data('id');
+                const active = $('#active_' + id).val();
+                const url = '/api/reviews/' + id
+                $.ajax({
+                    type: 'PUT',
+                    url: url,
+                    data: {
+                        title: 'tttt'
+                    },
+                    dataType: 'json',
+                    success: (data) => {
+                        alert('Изменено')
+                        location.reload();
+                    },
+                    error: (e) => {
+                        console.log(e)
+                        alert('Не удалось')
+                    }
+                })
+            })
+
+            $('#addCountry').click(function () {
+                const url = '/api/country'
+                const country = $('#country').val();
+                $('#country').val('')
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: {
+                        Name: country
+                    },
+                    dataType: 'json',
+                    success: (data) => {
+                        console.log(data);
+                        alert('Данные успешно добавлены')
+                        location.reload();
+                    },
+                    error: (e) => {
+                        console.log(e);
+                        alert('Произошла ошибка. Обратитесь к администратору')
+                    }
+                })
+            })
+            $('#deleteCountry').click(function () {
+                const url = '/api/country'
+                const id = $(this).data('id');
+                $.ajax({
+                    type: 'DELETE',
+                    url: url + '/' + id,
+                    success: () => {
+                        alert('Удалено');
+                        location.reload();
+                    },
+                    error: (e) => {
+                        alert('Ошибка');
+                        console.log(e);
+                    }
+                })
+            })
         
         $('#addCountry').click(function () {
             const url = '/api/country'
