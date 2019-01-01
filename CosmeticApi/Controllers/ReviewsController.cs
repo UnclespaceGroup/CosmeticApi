@@ -6,16 +6,18 @@ using System.Net.Http;
 using System.Web.Http;
 using CosmeticApi.Models.Context;
 using System.Data.Entity;
+using System.Web.Http.Cors;
 
 namespace CosmeticApi.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ReviewsController : ApiController
     {
         Context db = new Context();
 
         public HttpResponseMessage Get()
         {
-            var reviews = db.Reviews.Include(p => p.Brand).Include(p => p.User).Include(p => p.Comments);
+            var reviews = db.Reviews.Include(p => p.Brand).Include(p => p.User.Name).Include(p => p.Comments);
             var responce = Request.CreateResponse<IEnumerable<Review>>(HttpStatusCode.OK, reviews);
             return responce;
         }

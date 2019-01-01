@@ -12,6 +12,7 @@ namespace CosmeticApi
     {
         public static void Register(HttpConfiguration config)
         {
+            config.EnableCors();
             // Конфигурация и службы Web API
             // Настройка Web API для использования только проверки подлинности посредством маркера-носителя.
             config.SuppressDefaultHostAuthentication();

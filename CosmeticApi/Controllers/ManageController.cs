@@ -12,7 +12,7 @@ namespace CosmeticApi.Controllers
     public class ManageController : Controller
     {
         Context db = new Context();
-        // GET: Manage
+        
         public ActionResult Index()
         {
             IEnumerable<Review> reviews = db.Reviews.Include(p => p.Brand).Include(p => p.Comments).Include(p => p.User);
