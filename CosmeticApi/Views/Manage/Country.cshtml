@@ -1,18 +1,31 @@
 ﻿@using CosmeticApi.Models.Context
 @model IEnumerable<Country>
 
-<div>
-    <h2>Страны</h2>
-    <table class="table">
-        <tbody>
-            @foreach(Country c in Model)
-            {
-                <tr>
-                    <td>@c.Id</td>
-                    <td>@c.Name</td>
-                    <td><button class="btn btn-primary" id="deleteCountry" data-id=@c.Id>Удалить</button></td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<div class="container block">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Страны</h2>
+            <table class="table">
+                <tbody>
+                    @foreach (Country c in Model)
+                    {
+                        <tr>
+                            <td>@c.Id</td>
+                            <td>@c.Name</td>
+                            <td><button class="btn btn-primary" id="deleteCountry" data-id=@c.Id>Удалить</button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <div class="form">
+                <h3>Добавить страну</h3>
+                <div class="form-group">
+                    <input class="form-control" id="country" placeholder="Введите Страну" />
+                </div>
+                <button class="btn btn-primary" id="addCountry">Добавить</button>
+            </div>
+        </div>
+    </div>
 </div>

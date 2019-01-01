@@ -23,6 +23,11 @@ namespace CosmeticApi.Controllers
             IEnumerable<Country> countries = db.Countries;
             return PartialView(countries);
         }
+        public ActionResult Brand()
+        {
+            IEnumerable<Brand> brands = db.Brands;
+            return PartialView(brands);
+        }
         protected override void Dispose(bool disposing)
         {
             db.Dispose();

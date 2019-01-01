@@ -15,6 +15,7 @@ namespace CosmeticApi.Models
 
     public class ChangePasswordBindingModel
     {
+
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Текущий пароль")]

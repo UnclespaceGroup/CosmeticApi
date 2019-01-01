@@ -8,35 +8,31 @@
 <div class="container">
     <table class="table">
         <tbody>
-            @foreach(Review r in Model)
+            @foreach (Review r in Model)
             {
-            <tr>
-                <td>@r.Title</td>
-                <td>@r.Text</td>
-                <td>@r.Active</td>
-                <td>@r.Brand.Name</td>
-                <td>@r.Data</td>
-                <td>@r.User</td>
-            </tr>
+                <tr>
+                    <td>@r.Title</td>
+                    <td>@r.Text</td>
+                    <td>@r.Active</td>
+                    <td>@r.Brand</td>
+                    <td>@r.Data</td>
+                    <td>@r.User</td>
+                </tr>
             }
         </tbody>
     </table>
+</div>
+<div class="container">
 
     @Html.Action("Country")
-
-    <div class="form">
-        <h3>Добавить страну</h3>
-        <div class="form-group">
-            <input class="form-control" id="country" placeholder="Введите Страну" />
-        </div>
-        <button class="btn btn-primary" id="addCountry">Добавить</button>
-    </div>
+    @Html.Action("Brand")
 </div>
 
 @section scripts{
     <script type="text/javascript">
-        const url = '/api/country'
+        
         $('#addCountry').click(function () {
+            const url = '/api/country'
             const country = $('#country').val();
             $('#country').val('')
             $.ajax({
@@ -49,6 +45,7 @@
                 success: (data) => {
                     console.log(data);
                     alert('Данные успешно добавлены')
+                    location.reload();
                 },
                 error: (e) => {
                     console.log(e);
@@ -57,12 +54,14 @@
             })
         })
         $('#deleteCountry').click(function () {
+            const url = '/api/country'
             const id = $(this).data('id');
             $.ajax({
                 type: 'DELETE',
                 url: url+'/'+id,
                 success: () => {
                     alert('Удалено');
+                    location.reload();
                 },
                 error: (e) => {
                     alert('Ошибка');
@@ -71,6 +70,45 @@
             })
         })
 
+        // brands
+        $('#addBrand').click(function () {
+            const url = '/api/brands'
+            const brand = $('#brand').val();
+            $('#brand').val('')
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: {
+                    Name: brand
+                },
+                dataType: 'json',
+                success: (data) => {
+                    console.log(data);
+                    alert('Данные успешно добавлены')
+                    location.reload();
+                },
+                error: (e) => {
+                    console.log(e);
+                    alert('Произошла ошибка. Обратитесь к администратору')
+                }
+            })
+        })
+        $('#deleteBrand').click(function () {
+            const url = '/api/brands'
+            const id = $(this).data('id');
+            $.ajax({
+                type: 'DELETE',
+                url: url + '/' + id,
+                success: () => {
+                    alert('Удалено');
+                    location.reload();
+                },
+                error: (e) => {
+                    alert('Ошибка');
+                    console.log(e);
+                }
+            })
+        })
     </script>    
 }
 
