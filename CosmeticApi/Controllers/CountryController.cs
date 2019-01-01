@@ -8,27 +8,27 @@ using CosmeticApi.Models.Context;
 
 namespace CosmeticApi.Controllers
 {
-    public class UsersController : ApiController
+    public class CountryController : ApiController
     {
         Context db = new Context();
 
         public HttpResponseMessage Get()
         {
-            var users = db.Users;
-            var responce = Request.CreateResponse<IEnumerable<User>>(HttpStatusCode.OK, users);
+            var country = db.Countries;
+            var responce = Request.CreateResponse<IEnumerable<Country>>(HttpStatusCode.OK, country);
             return responce;
         }
 
         public HttpResponseMessage Get(int id)
         {
-            var user = db.Users.Find(id);
-            var responce = Request.CreateResponse<User>(HttpStatusCode.OK, user);
+            var country = db.Countries.Find(id);
+            var responce = Request.CreateResponse<Country>(HttpStatusCode.OK, country);
             return responce;
         }
 
-        public void Post([FromBody]User value)
+        public void Post([FromBody]Country value)
         {
-            db.Users.Add(value);
+            db.Countries.Add(value);
             db.SaveChanges();
         }
 
@@ -38,10 +38,10 @@ namespace CosmeticApi.Controllers
 
         public void Delete(int id)
         {
-            User user = db.Users.Find(id);
-            if (user != null)
+            Country country = db.Countries.Find(id);
+            if (country != null)
             {
-                db.Users.Remove(user);
+                db.Countries.Remove(country);
                 db.SaveChanges();
             }
         }

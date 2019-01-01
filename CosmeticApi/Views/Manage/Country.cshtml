@@ -1,0 +1,18 @@
+﻿@using CosmeticApi.Models.Context
+@model IEnumerable<Country>
+
+<div>
+    <h2>Страны</h2>
+    <table class="table">
+        <tbody>
+            @foreach(Country c in Model)
+            {
+                <tr>
+                    <td>@c.Id</td>
+                    <td>@c.Name</td>
+                    <td><button class="btn btn-primary" id="deleteCountry" data-id=@c.Id>Удалить</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

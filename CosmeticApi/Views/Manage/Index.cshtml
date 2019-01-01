@@ -1,0 +1,76 @@
+﻿@using CosmeticApi.Models.Context
+@model IEnumerable<Review>
+@{
+    ViewBag.Title = "Управление данными";
+}
+
+
+<div class="container">
+    <table class="table">
+        <tbody>
+            @foreach(Review r in Model)
+            {
+            <tr>
+                <td>@r.Title</td>
+                <td>@r.Text</td>
+                <td>@r.Active</td>
+                <td>@r.Brand</td>
+                <td>@r.Data</td>
+                <td>@r.User</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+    @Html.Action("Country")
+
+    <div class="form">
+        <h3>Добавить страну</h3>
+        <div class="form-group">
+            <input class="form-control" id="country" placeholder="Введите Страну" />
+        </div>
+        <button class="btn btn-primary" id="addCountry">Добавить</button>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        const url = '/api/country'
+        $('#addCountry').click(function () {
+            const country = $('#country').val();
+            $('#country').val('')
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: {
+                    Name: country
+                },
+                dataType: 'json',
+                success: (data) => {
+                    console.log(data);
+                    alert('Данные успешно добавлены')
+                },
+                error: (e) => {
+                    console.log(e);
+                    alert('Произошла ошибка. Обратитесь к администратору')
+                }
+            })
+        })
+        $('#deleteCountry').click(function () {
+            const id = $(this).data('id');
+            $.ajax({
+                type: 'DELETE',
+                url: url+'/'+id,
+                success: () => {
+                    alert('Удалено');
+                },
+                error: (e) => {
+                    alert('Ошибка');
+                    console.log(e);
+                }
+            })
+        })
+
+    </script>    
+}
+

@@ -5,43 +5,45 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using CosmeticApi.Models.Context;
+using System.Data.Entity;
 
 namespace CosmeticApi.Controllers
 {
-    public class UsersController : ApiController
+    public class ReviewsController : ApiController
     {
         Context db = new Context();
 
         public HttpResponseMessage Get()
         {
-            var users = db.Users;
-            var responce = Request.CreateResponse<IEnumerable<User>>(HttpStatusCode.OK, users);
+            var reviews = db.Reviews.Include(p => p.Brand).Include(p => p.User).Include(p => p.Comments);
+            var responce = Request.CreateResponse<IEnumerable<Review>>(HttpStatusCode.OK, reviews);
             return responce;
         }
 
         public HttpResponseMessage Get(int id)
         {
-            var user = db.Users.Find(id);
-            var responce = Request.CreateResponse<User>(HttpStatusCode.OK, user);
+            var review = db.Reviews.Find(id);
+            var responce = Request.CreateResponse<Review>(HttpStatusCode.OK, review);
             return responce;
         }
 
-        public void Post([FromBody]User value)
+        public void Post([FromBody]Review value)
         {
-            db.Users.Add(value);
+            db.Reviews.Add(value);
             db.SaveChanges();
         }
 
         public void Put(int id, [FromBody]string value)
         {
+
         }
 
         public void Delete(int id)
         {
-            User user = db.Users.Find(id);
-            if (user != null)
+            Review review = db.Reviews.Find(id);
+            if (review != null)
             {
-                db.Users.Remove(user);
+                db.Reviews.Remove(review);
                 db.SaveChanges();
             }
         }
