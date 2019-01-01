@@ -26,11 +26,9 @@
         </tbody>
     </table>
 </div>
-<div class="container">
 
-    @Html.Action("Country")
-    @Html.Action("Brand")
-</div>
+@Html.Action("Country")
+@Html.Action("Brand")
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -107,6 +105,9 @@
                 })
             })
 
+
+
+
             $('#addCountry').click(function () {
                 const url = '/api/country'
                 const country = $('#country').val();
@@ -129,7 +130,7 @@
                     }
                 })
             })
-            $('#deleteCountry').click(function () {
+            $('.deleteCountry').click(function () {
                 const url = '/api/country'
                 const id = $(this).data('id');
                 $.ajax({
@@ -145,85 +146,48 @@
                     }
                 })
             })
-        
-        $('#addCountry').click(function () {
-            const url = '/api/country'
-            const country = $('#country').val();
-            $('#country').val('')
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: {
-                    Name: country
-                },
-                dataType: 'json',
-                success: (data) => {
-                    console.log(data);
-                    alert('Данные успешно добавлены')
-                    location.reload();
-                },
-                error: (e) => {
-                    console.log(e);
-                    alert('Произошла ошибка. Обратитесь к администратору')
-                }
+
+            // brands
+            $('#addBrand').click(function () {
+                const url = '/api/brands'
+                const brand = $('#brand').val();
+                $('#brand').val('')
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: {
+                        Name: brand
+                    },
+                    dataType: 'json',
+                    success: (data) => {
+                        console.log(data);
+                        alert('Данные успешно добавлены')
+                        location.reload();
+                    },
+                    error: (e) => {
+                        console.log(e);
+                        alert('Произошла ошибка. Обратитесь к администратору')
+                    }
+                })
             })
-        })
-        $('.deleteCountry').click(function () {
-            const url = '/api/country'
-            const id = $(this).data('id');
-            $.ajax({
-                type: 'DELETE',
-                url: url+'/'+id,
-                success: () => {
-                    alert('Удалено');
-                    location.reload();
-                },
-                error: (e) => {
-                    alert('Ошибка');
-                    console.log(e);
-                }
+            $('.deleteBrand').click(function () {
+                const url = '/api/brands'
+                const id = $(this).data('id');
+                $.ajax({
+                    type: 'DELETE',
+                    url: url + '/' + id,
+                    success: () => {
+                        alert('Удалено');
+                        location.reload();
+                    },
+                    error: (e) => {
+                        alert('Ошибка');
+                        console.log(e);
+                    }
+                })
             })
         })
 
-        // brands
-        $('#addBrand').click(function () {
-            const url = '/api/brands'
-            const brand = $('#brand').val();
-            $('#brand').val('')
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: {
-                    Name: brand
-                },
-                dataType: 'json',
-                success: (data) => {
-                    console.log(data);
-                    alert('Данные успешно добавлены')
-                    location.reload();
-                },
-                error: (e) => {
-                    console.log(e);
-                    alert('Произошла ошибка. Обратитесь к администратору')
-                }
-            })
-        })
-        $('.deleteBrand').click(function () {
-            const url = '/api/brands'
-            const id = $(this).data('id');
-            $.ajax({
-                type: 'DELETE',
-                url: url + '/' + id,
-                success: () => {
-                    alert('Удалено');
-                    location.reload();
-                },
-                error: (e) => {
-                    alert('Ошибка');
-                    console.log(e);
-                }
-            })
-        })
-    </script>    
+    </script>
 }
 
